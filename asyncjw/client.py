@@ -1,6 +1,9 @@
 import asyncio
 
+from .certification import Certification
 from .http import HTTP 
+from .genre import Genre
+from .provider import Provider
 
 class Client:
 
