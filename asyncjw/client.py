@@ -2,6 +2,7 @@ import asyncio
 
 from .certification import Certification
 from .http import HTTP 
+from .item import Item
 from .genre import Genre
 from .provider import Provider
 
