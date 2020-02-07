@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from .object import Object
+from .season import Season
 from .util import image_url, path_url
 
 class Item(Object):
@@ -28,7 +29,22 @@ class Item(Object):
             self.offers.append(provider.from_item(self, x))
         
         self._data = data
+        self.expanded = False
         
     def __repr__(self):
-        return f"<Item title={self.title!r} id={self.id} type={self.type!r}>"
+        return f"<Item title={self.title!r} id={self.id} type={self.type!r} expanded={self.expanded}>"
     
+    async def expand(self):
+        data = await self.client.http.get_item(self.id, self.type)
+
+        self.backdrops = [image_url(x["backdrop_url"]) for x in data.get("backdrops", [])]
+        self.description = data.get("short_description")
+        self.genres = [self.client._genres[x] for x in data.get("genre_ids", [])]
+        self.age_rating = self.client._certifications[self.type][data.get("age_certification")]
+        self.credits = data.get("credits")
+        self.runtime = data.get("runtime")
+        self.seasons = [Season(self, d) for d in data["seasons"]]
+        
+        self._data_ext = data
+        self.expanded = True
+        

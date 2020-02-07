@@ -55,3 +55,8 @@ class HTTP:
         params = dict(country=self.client.country, object_type=content_type)
         return await self.request(Request("GET", "age_certifications", params=params))
 
+    async def get_item(self, id, content_type):
+        return await self.request(Request("GET", "titles/{content_type}/{id}/locale/{{locale}}".format(
+            content_type=content_type, id=id
+        )))
+
