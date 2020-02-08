@@ -1,5 +1,6 @@
 from .certification import Certification
 from .client import Client
+from .episode import Episode
 from .genre import Genre
 from .item import Item
 from .object import Object

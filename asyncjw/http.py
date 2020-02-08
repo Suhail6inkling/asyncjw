@@ -59,4 +59,10 @@ class HTTP:
         return await self.request(Request("GET", "titles/{content_type}/{id}/locale/{{locale}}".format(
             content_type=content_type, id=id
         )))
+    
+    async def get_season(self, id):
+        return await self.request(Request("GET", "titles/show_season/{id}/locale/{{locale}}".format(
+            id=id
+        )))
+
 
