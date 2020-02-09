@@ -1,0 +1,2 @@
+class JustWatchException(Exception):
+    pass
