@@ -60,3 +60,31 @@ class Client:
         data = await self.http.get_certifications("show")
         self._certifications["show"] = {c["technical_name"]: Certification(self, c) for c in data}
 
+
+    async def search(self, **params):
+        payload = {
+			"age_certifications":None,
+			"content_types":None,
+			"presentation_types":None,
+			"providers":None,
+			"genres":None,
+			"languages":None,
+			"release_year_from":None,
+			"release_year_until":None,
+			"monetization_types":None,
+			"min_price":None,
+			"max_price":None,
+			"nationwide_cinema_releases_only":None,
+			"scoring_filter_types":None,
+			"cinema_release":None,
+			"query":None,
+			"page":None,
+			"page_size":None,
+			"timeline_type":None,
+			"person_id":None
+		}
+        filtered = {key: value for key, value in params.items() if key in payload.keys()}
+        payload.update(filtered)
+        
+        data = await self.http.search(payload)
+        return [Item(self, x) for x in data.get("items", [])]

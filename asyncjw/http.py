@@ -45,6 +45,9 @@ class HTTP:
     async def get_locale(self):
         return await self.request(Request("GET", "locales/state"))
 
+    async def search(self, payload):
+        return await self.request(Request("POST", "titles/{locale}/popular", json=payload))
+    
     async def get_genres(self):
         return await self.request(Request("GET", "genres/locale/{locale}"))
     
