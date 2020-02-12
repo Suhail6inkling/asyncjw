@@ -5,6 +5,7 @@ from .http import HTTP
 from .item import Item
 from .genre import Genre
 from .provider import Provider
+from .util import get_id
 
 class Client:
 
@@ -61,7 +62,7 @@ class Client:
         self._certifications["show"] = {c["technical_name"]: Certification(self, c) for c in data}
 
 
-    async def search(self, **params):
+    async def search(self, query=None, **params):
         payload = {
 			"age_certifications":None,
 			"content_types":None,
@@ -83,8 +84,9 @@ class Client:
 			"timeline_type":None,
 			"person_id":None
 		}
-        filtered = {key: value for key, value in params.items() if key in payload.keys()}
+        filtered = {key: get_id(value) for key, value in params.items() if key in payload.keys()}
         payload.update(filtered)
-        
+        payload.update({"query":query})
+
         data = await self.http.search(payload)
         return [Item(self, x) for x in data.get("items", [])]
