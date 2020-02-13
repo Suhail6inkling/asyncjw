@@ -5,6 +5,7 @@ from .http import HTTP
 from .item import Item
 from .genre import Genre
 from .provider import Provider
+from .searchresults import SearchResults
 from .util import get_id
 
 class Client:
@@ -64,29 +65,31 @@ class Client:
 
     async def search(self, query=None, **params):
         payload = {
-			"age_certifications":None,
-			"content_types":None,
-			"presentation_types":None,
-			"providers":None,
-			"genres":None,
-			"languages":None,
-			"release_year_from":None,
-			"release_year_until":None,
-			"monetization_types":None,
-			"min_price":None,
-			"max_price":None,
-			"nationwide_cinema_releases_only":None,
-			"scoring_filter_types":None,
-			"cinema_release":None,
-			"query":None,
-			"page":None,
-			"page_size":None,
-			"timeline_type":None,
-			"person_id":None
+			"age_certifications": None,
+			"content_types": None,
+			"presentation_types": None,
+			"providers": None,
+			"genres": None,
+			"languages": None,
+			"release_year_from": None,
+			"release_year_until": None,
+			"monetization_types": None,
+			"min_price": None,
+			"max_price": None,
+			"nationwide_cinema_releases_only": None,
+			"scoring_filter_types": None,
+			"cinema_release": None,
+			"query": None,
+			"page": None,
+			"page_size": None,
+			"timeline_type": None,
+			"person_id": None
 		}
         filtered = {key: get_id(value) for key, value in params.items() if key in payload.keys()}
         payload.update(filtered)
         payload.update({"query":query})
 
         data = await self.http.search(payload)
-        return [Item(self, x) for x in data.get("items", [])]
+        data["query"] = payload["query"]
+        data["items"] = [Item(self, x) for x in data.get("items", [])]
+        return SearchResults(self, data)
