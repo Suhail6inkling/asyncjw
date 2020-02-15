@@ -21,7 +21,7 @@ class Season(Object):
 
     async def expand(self):
         data = await self.client.http.get_season(self.id)
-
+        self.__init__(self.client, data)
         self.backdrops = [image_url(x["backdrop_url"]) for x in data.get("backdrops", [])]
         self.popularity = data.get("tmdb_popularity")
 

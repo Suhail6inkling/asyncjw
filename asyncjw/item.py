@@ -36,7 +36,8 @@ class Item(Object):
     
     async def expand(self):
         data = await self.client.http.get_item(self.id, self.type)
-
+        
+        self.__init__(self.client, data)
         self.backdrops = [image_url(x["backdrop_url"]) for x in data.get("backdrops", [])]
         self.description = data.get("short_description")
         self.genres = [self.client._genres[x] for x in data.get("genre_ids", [])]
