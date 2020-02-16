@@ -15,13 +15,15 @@ class Season(Object):
         self.poster = image_url(data.get("poster"))
         self.path = path_url(data.get("full_path"))
         self.expanded = False
+
+        self._data = data
     
     def __repr__(self):
         return f"<Season title={self.title!r} number={self.number} id={self.id} show={self.show!r} expanded={self.expanded}>"
 
     async def expand(self):
         data = await self.client.http.get_season(self.id)
-        self.__init__(self.client, data)
+        self.__init__(self.show, data)
         self.backdrops = [image_url(x["backdrop_url"]) for x in data.get("backdrops", [])]
         self.popularity = data.get("tmdb_popularity")
 
@@ -38,6 +40,5 @@ class Season(Object):
 
             self.offers.append(provider.from_item(self, x))
         
-        self._data_ext = data
         self.expanded = True
 

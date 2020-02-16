@@ -45,7 +45,6 @@ class Item(Object):
         self.credits = data.get("credits")
         self.runtime = data.get("runtime")
         self.seasons = [Season(self, d) for d in data.get("seasons", [])]
-        
-        self._data_ext = data
+
         self.expanded = True
         
