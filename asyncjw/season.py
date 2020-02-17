@@ -2,8 +2,8 @@ from .episode import Episode
 from .object import Object
 from .util import image_url, path_url
 
-class Season(Object):
 
+class Season(Object):
     def __init__(self, show, data):
         self.client = show.client
         self.show = show
@@ -17,14 +17,16 @@ class Season(Object):
         self.expanded = False
 
         self._data = data
-    
+
     def __repr__(self):
         return f"<Season title={self.title!r} number={self.number} id={self.id} show={self.show!r} expanded={self.expanded}>"
 
     async def expand(self):
         data = await self.client.http.get_season(self.id)
         self.__init__(self.show, data)
-        self.backdrops = [image_url(x["backdrop_url"]) for x in data.get("backdrops", [])]
+        self.backdrops = [
+            image_url(x["backdrop_url"]) for x in data.get("backdrops", [])
+        ]
         self.popularity = data.get("tmdb_popularity")
 
         self.credits = data.get("credits")
@@ -39,6 +41,5 @@ class Season(Object):
             provider = self.client._providers[id]
 
             self.offers.append(provider.from_item(self, x))
-        
-        self.expanded = True
 
+        self.expanded = True

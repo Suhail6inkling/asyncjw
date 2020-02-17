@@ -1,5 +1,4 @@
-class Object():
-    
+class Object:
     def __eq__(self, other):
         if isinstance(other, Object):
             try:

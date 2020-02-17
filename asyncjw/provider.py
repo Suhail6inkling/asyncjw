@@ -1,11 +1,11 @@
-from .object import Object 
+from .object import Object
 from .util import image_url
 
-class Provider(Object):
 
+class Provider(Object):
     def __init__(self, client, data):
         self.client = client
-        
+
         self.id = data.get("id")
         self.name = data.get("clear_name")
         self.short = data.get("short_name")
@@ -27,7 +27,6 @@ class Provider(Object):
 
 
 class ExpandedProvider(Provider):
-
     def __init__(self, client, provider_data, item, item_data):
         super().__init__(client, provider_data)
 
@@ -48,11 +47,6 @@ class ExpandedProvider(Provider):
 
     @property
     def type(self):
-        conversion = {
-            "flatrate": "Subscription",
-            "ads": "Subscription (Ads)"
-        }
+        conversion = {"flatrate": "Subscription", "ads": "Subscription (Ads)"}
 
         return conversion.get(self._type, self._type.title())
-    
-    

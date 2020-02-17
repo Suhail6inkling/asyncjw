@@ -1,8 +1,8 @@
 from .object import Object
 from .util import image_url
 
-class Episode(Object):
 
+class Episode(Object):
     def __init__(self, season, data):
         self.season = season
         self.show = season.show
@@ -12,7 +12,7 @@ class Episode(Object):
         self.title = data.get("title")
         self.type = "show_episode"
         self.poster = image_url(data.get("poster"))
-        self.description = data.get("short_description") 
+        self.description = data.get("short_description")
         self.runtime = data.get("runtime")
         self.number = data.get("episode_number")
 
@@ -23,6 +23,6 @@ class Episode(Object):
             provider = self.client._providers[id]
 
             self.offers.append(provider.from_item(self, x))
-    
+
     def __repr__(self):
         return f"<Episode title={self.title!r} number={self.number} id={self.id} seaosn={self.season!r}>"
