@@ -6,6 +6,8 @@ def image_url(url):
 
     if "poster" in url:
         profile = "s592"
+    elif "backdrop" in url:
+        profile = "s1440"
     else:
         profile = "s100"
 
