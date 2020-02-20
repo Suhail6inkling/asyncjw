@@ -44,9 +44,10 @@ class Item(Object):
         ]
         self.description = data.get("short_description")
         self.genres = [self.client._genres[x] for x in data.get("genre_ids", [])]
-        self.age_rating = self.client._certifications[self.type][
+        self.age_rating = (
             data.get("age_certification")
-        ]
+            and self.client._certifications[self.type][data.get("age_certification")]
+        )
         self.credits = data.get("credits")
         self.runtime = data.get("runtime") and timedelta(minutes=data.get("runtime"))
         self.seasons = [Season(self, d) for d in data.get("seasons", [])]
