@@ -1,4 +1,3 @@
-from datetime import timedelta
 from .object import Object
 from .util import image_url
 
@@ -14,7 +13,7 @@ class Episode(Object):
         self.type = "show_episode"
         self.poster = image_url(data.get("poster"))
         self.description = data.get("short_description")
-        self.runtime = data.get("runtime") and timedelta(minutes=data.get("runtime"))
+        self.runtime = data.get("runtime")
         self.number = data.get("episode_number")
 
         self.offers = []

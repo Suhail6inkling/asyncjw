@@ -49,7 +49,7 @@ class Item(Object):
             and self.client._certifications[self.type][data.get("age_certification")]
         )
         self.credits = data.get("credits")
-        self.runtime = data.get("runtime") and timedelta(minutes=data.get("runtime"))
+        self.runtime = data.get("runtime")
         self.seasons = [Season(self, d) for d in data.get("seasons", [])]
 
         self.expanded = True
