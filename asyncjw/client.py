@@ -17,7 +17,6 @@ class Client:
         self._genres = {}
         self._providers = {}
         self._certifications = {}
-        self._initialized = False
 
     def __repr__(self):
         return f"<Client country={self.country!r} locale={self.locale!r}>"
@@ -41,7 +40,6 @@ class Client:
         }
 
     async def _initialize(self):
-        self._initialized = True
         data = await self.http.get_locale()
 
         match = [

@@ -31,8 +31,8 @@ class HTTP:
         self.session = session or aiohttp.ClientSession(loop=self.loop)
         self.locale = None
 
-    async def request(self, req):
-        if not self.client._initialized:
+    async def request(self, req, *, override=False):
+        if not self.locale and not override:
             await self.client._initialize()
         async with self.session.request(
             req.method, req.url.format(locale=self.locale), **req.kwargs
@@ -42,7 +42,7 @@ class HTTP:
             resp.raise_for_status()
 
     async def get_locale(self):
-        return await self.request(Request("GET", "locales/state"))
+        return await self.request(Request("GET", "locales/state"), override=True)
 
     async def search(self, payload):
         return await self.request(
