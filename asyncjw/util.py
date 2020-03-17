@@ -36,3 +36,31 @@ def get_id(obj):
         return [get_id(x) for x in obj]
     else:
         return obj
+        
+
+
+async def multi_country(default, *others):
+    
+    from .client import Client as cls
+    
+    
+    clients = {}
+    
+    origin = cls(default)
+    
+    await origin._initialize()
+    
+    clients[default] = origin
+    
+    genres, providers, certifications = origin._genres, origin._providers, orgin._certifications
+    
+    for country in others:
+        client = cls(country)
+        
+        clients[country] = client
+        
+        client._genres, client._providers, client._certifications = genres, providers, certifications
+    
+    return clients
+        
+        
